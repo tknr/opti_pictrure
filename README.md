@@ -1,1 +1,1 @@
-# reduce_picture
+# opti_picture
