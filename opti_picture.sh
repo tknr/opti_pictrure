@@ -1,9 +1,5 @@
 #!/bin/bash
-#!/bin/bash
 export IFS=$'\n'
-DIR=$(cd $(dirname $0); pwd)
-cd $DIR
-source ./lock.sh
 
 DATE=`date +%Y_%m_%d`
 argv=("$@")
@@ -14,12 +10,21 @@ if [ $# -eq 0 ]; then
 	exit 1
 fi
 
-for TARGET_DIR in ${argv}
+## https://qiita.com/hit/items/e95298f689a1ee70ae4a
+_pcnt=`pgrep -fo ${CMDNAME} | wc -l`
+if [ ${_pcnt} -gt 1 ]; then
+	echo "This script has been running now. proc : ${_pcnt}"
+	exit 1
+fi
+
+for ARG_DIR in ${argv}
 do
+	TARGET_DIR=`readlink -f ${ARG_DIR}`
 
 	for FILENAME in `find "${TARGET_DIR}" -name "*.png"`
 	do
-		nice -n 19 optipng -o7 "${FILENAME}" || continue
+#		nice -n 19 optipng -o7 "${FILENAME}" || continue
+		nice -n 19 pngquant --ext .png --force --speed 1 "${FILENAME}" || continue
 	done
 
 	for FILENAME in `find "${TARGET_DIR}" -name "*.jpg"`
