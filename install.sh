@@ -1,3 +1,3 @@
 #!/bin/bash
-ln -s `pwd`/opti_picture.sh /usr/local/bin/opti_picture
+ln -s `pwd`/opti_picture /usr/local/bin/
 
