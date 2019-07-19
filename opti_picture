@@ -23,13 +23,12 @@ do
 
 	for FILENAME in `find "${TARGET_DIR}" -name "*.png"`
 	do
-#		nice -n 19 optipng -o7 "${FILENAME}" || continue
-		nice -n 19 pngquant --ext .png --force --speed 1 "${FILENAME}" || continue
+		nice -n 19 pngquant -v --ext .png --force --speed 1 --skip-if-larger "${FILENAME}" || continue
 	done
 
 	for FILENAME in `find "${TARGET_DIR}" -name "*.jpg"`
 	do
-		nice -n 19 jpegoptim --strip-all "${FILENAME}" || continue
+		nice -n 19 jpegoptim --strip-all --all-progressive "${FILENAME}" || continue
 	done
 
 done
