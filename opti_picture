@@ -26,12 +26,10 @@ do
 		EXTENSION=${FILENAME##*.}
 		case "$EXTENSION" in 
 			"png" | "PNG" )
-				mv ${FILENAME} ${FILENAME%%.${EXTENSION}}.png
-				nice -n 19 pngquant -v --ext .png --force --speed 1 --skip-if-larger "${FILENAME%%.${EXTENSION}}.png" || continue
+				nice -n 19 pngquant -v --ext .png --force --speed 1 --skip-if-larger "${FILENAME}" || continue
 			;;
 			"jpg" | "JPG" | "jpeg" | "JPEG" )
-				mv ${FILENAME} ${FILENAME%%.${EXTENSION}}.jpg
-				nice -n 19 jpegoptim --strip-all --all-progressive "${FILENAME%%.${EXTENSION}}.jpg" || continue
+				nice -n 19 jpegoptim --strip-all --all-progressive "${FILENAME}" || continue
 			;;
 		esac
 	done
