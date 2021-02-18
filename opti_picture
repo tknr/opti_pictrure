@@ -21,15 +21,19 @@ for ARG_DIR in ${argv}
 do
 	TARGET_DIR=`readlink -f ${ARG_DIR}`
 
-	for FILENAME in `find "${TARGET_DIR}" -iname "*.png"`
+	for FILENAME in `find "${TARGET_DIR}" -iname "*.png" -or -iname "*.jpg" -or -iname "*.jpeg"`
 	do
-		mv ${FILENAME} ${FILENAME%%.PNG}.png
-		nice -n 19 pngquant -v --ext .png --force --speed 1 --skip-if-larger "${FILENAME}" || continue
-	done
-
-	for FILENAME in `find "${TARGET_DIR}" -iname "*.jpg" -or -iname "*.jpeg"`
-	do
-		nice -n 19 jpegoptim --strip-all --all-progressive "${FILENAME}" || continue
+		EXTENSION=${FILENAME##*.}
+		case "$EXTENSION" in 
+			"png" | "PNG" )
+				mv ${FILENAME} ${FILENAME%%.${EXTENSION}}.png
+				nice -n 19 pngquant -v --ext .png --force --speed 1 --skip-if-larger "${FILENAME%%.${EXTENSION}}.png" || continue
+			;;
+			"jpg" | "JPG" | "jpeg" | "JPEG" )
+				mv ${FILENAME} ${FILENAME%%.${EXTENSION}}.jpg
+				nice -n 19 jpegoptim --strip-all --all-progressive "${FILENAME%%.${EXTENSION}}.jpg" || continue
+			;;
+		esac
 	done
 
 done
