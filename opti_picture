@@ -21,7 +21,7 @@ for ARG_DIR in ${argv}
 do
 	TARGET_DIR=`readlink -f ${ARG_DIR}`
 
-	for FILENAME in `find "${TARGET_DIR}" -iname "*.png" -or -iname "*.jpg" -or -iname "*.jpeg"`
+	for FILENAME in `find "${TARGET_DIR}" -iname "*.png" -or -iname "*.jpg" -or -iname "*.jpeg" | sort -h`
 	do
 		EXTENSION=${FILENAME##*.}
 		case "$EXTENSION" in 
