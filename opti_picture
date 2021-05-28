@@ -24,7 +24,7 @@ do
 	for FILENAME in `find "${TARGET_DIR}" -iname "*.png" -or -iname "*.jpg" -or -iname "*.jpeg" | sort -h`
 	do
 		EXTENSION=${FILENAME##*.}
-		EXTENSTION_LC=${EXTENSION,,}
+		EXTENSION_LC=${EXTENSION,,}
 		case "$EXTENSION_LC" in 
 			"png" )
 				nice -n 19 pngquant -v --ext .png --force --speed 1 --skip-if-larger "${FILENAME}" || continue
@@ -34,5 +34,4 @@ do
 			;;
 		esac
 	done
-
 done
