@@ -24,7 +24,7 @@ do
 	for FILENAME in `find "${TARGET_DIR}" -iname "*.png" -or -iname "*.jpg" -or -iname "*.jpeg" | sort -h`
 	do
 		EXTENSION=${FILENAME##*.}
-		EXTENSION_LC=${EXTENSION,,}
+		EXTENSION_LC=`echo ${EXTENSION} | tr '[:upper:]' '[:lower:]'`
 		case "$EXTENSION_LC" in 
 			"png" )
 				nice -n 19 pngquant -v --ext .png --force --speed 1 --skip-if-larger "${FILENAME}" || continue
