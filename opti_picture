@@ -21,16 +21,19 @@ for ARG_DIR in ${argv}
 do
 	TARGET_DIR=`readlink -f ${ARG_DIR}`
 
-	for FILENAME in `find "${TARGET_DIR}" -iname "*.png" -or -iname "*.jpg" -or -iname "*.jpeg" | sort -h`
+	for FILENAME in `find "${TARGET_DIR}" -iname "*.png" -or -iname "*.jpg" -or -iname "*.jpeg" -or -iname "*.gif" | sort -h`
 	do
 		EXTENSION=${FILENAME##*.}
 		EXTENSION_LC=`echo ${EXTENSION} | tr '[:upper:]' '[:lower:]'`
 		case "$EXTENSION_LC" in 
 			"png" )
-				nice -n 19 pngquant -v --ext .png --force --speed 1 --skip-if-larger "${FILENAME}" || continue
+				nice -n 19 pngquant --verbose --ext .png --force --speed 1 --skip-if-larger "${FILENAME}" || continue
 			;;
 			"jpg" | "jpeg" )
-				nice -n 19 jpegoptim --strip-all --all-progressive "${FILENAME}" || continue
+				nice -n 19 jpegoptim --verbose --strip-all --all-progressive "${FILENAME}" || continue
+			;;
+			"gif" )
+				nice -n 19 gifsicle --verbose --batch --optimize=3 "${FILENAME}" | continue
 			;;
 		esac
 	done
